@@ -136,12 +136,14 @@
 
         #modeToggle {
             position: fixed; top: 14px; right: 16px; z-index: 9000;
-            padding: 8px 16px; background: rgba(212,175,55,0.15);
+            width: 44px; height: 44px; padding: 0;
+            background: rgba(212,175,55,0.15);
             border: 2px solid #d4af37; color: #d4af37;
-            font-family: 'Courier New', monospace; font-size: 0.85em;
-            cursor: pointer; border-radius: 20px; transition: all 0.3s; letter-spacing: 0.05em;
+            font-size: 20px; cursor: pointer;
+            border-radius: 50%; transition: all 0.3s;
+            display: flex; align-items: center; justify-content: center;
         }
-        #modeToggle:hover { background: rgba(212,175,55,0.35); transform: scale(1.05); }
+        #modeToggle:hover { background: rgba(212,175,55,0.35); transform: scale(1.12); }
         body.light #modeToggle { border-color: #8b6914; color: #5a3e1b; background: rgba(212,175,55,0.2); }
         body.light #modeToggle:hover { background: rgba(212,175,55,0.4); }
 
@@ -228,7 +230,7 @@
 </head>
 <body>
 
-    <button id="modeToggle" onclick="toggleMode()"><span id="themeIcon">☀️</span> <span id="themeLabel">LIGHT</span></button>
+    <button id="modeToggle" onclick="toggleMode()"><span id="themeIcon">🌙</span></button>
 
     <div class="main-content">
 
@@ -354,12 +356,10 @@ node generate-manifest.js</code></pre>
             var saved = localStorage.getItem('kkk-theme');
             if (saved === 'light') {
                 document.body.classList.add('light');
-                document.getElementById('themeIcon').textContent = '🎉';
-                document.getElementById('themeLabel').textContent = 'PARTY';
+                document.getElementById('themeIcon').textContent = '☀️';
             } else if (saved === 'party') {
                 document.body.classList.add('party');
-                document.getElementById('themeIcon').textContent = '🌙';
-                document.getElementById('themeLabel').textContent = 'DARK';
+                document.getElementById('themeIcon').textContent = '🎉';
             }
         } catch(e) {}
 
@@ -371,15 +371,12 @@ node generate-manifest.js</code></pre>
             b.classList.remove('light', 'party');
             if (next === 'light') {
                 b.classList.add('light');
-                document.getElementById('themeIcon').textContent = '🎉';
-                document.getElementById('themeLabel').textContent = 'PARTY';
+                document.getElementById('themeIcon').textContent = '☀️';
             } else if (next === 'party') {
                 b.classList.add('party');
-                document.getElementById('themeIcon').textContent = '🌙';
-                document.getElementById('themeLabel').textContent = 'DARK';
+                document.getElementById('themeIcon').textContent = '🎉';
             } else {
-                document.getElementById('themeIcon').textContent = '☀️';
-                document.getElementById('themeLabel').textContent = 'LIGHT';
+                document.getElementById('themeIcon').textContent = '🌙';
             }
             try { localStorage.setItem('kkk-theme', next); } catch(e) {}
         }

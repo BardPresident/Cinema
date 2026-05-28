@@ -64,6 +64,76 @@
         body.light .instructions a { color: #7a5520; }
         body.light .instructions a:hover { color: #3a2a0a; }
 
+        /* ══ PARTY MODE ══════════════════════════════════════════════════════ */
+        body.party {
+            background: #080010;
+            color: #ffffff;
+            animation: party-bg 6s linear infinite;
+        }
+        @keyframes party-bg {
+            0%   { background-color: #080010; }
+            16%  { background-color: #100008; }
+            33%  { background-color: #001010; }
+            50%  { background-color: #080010; }
+            66%  { background-color: #100005; }
+            83%  { background-color: #050010; }
+            100% { background-color: #080010; }
+        }
+        body.party .header {
+            background: rgba(255,45,120,0.05);
+            animation: party-border 2s linear infinite;
+        }
+        body.party .header h1 { animation: party-text 1.5s linear infinite; }
+        @keyframes party-text {
+            0%   { color: #ff2d78; text-shadow: 0 0 30px rgba(255,45,120,0.9); }
+            25%  { color: #00ffff; text-shadow: 0 0 30px rgba(0,255,255,0.9); }
+            50%  { color: #ff00ff; text-shadow: 0 0 30px rgba(255,0,255,0.9); }
+            75%  { color: #aaff00; text-shadow: 0 0 30px rgba(170,255,0,0.9); }
+            100% { color: #ff2d78; text-shadow: 0 0 30px rgba(255,45,120,0.9); }
+        }
+        @keyframes party-border {
+            0%   { border-color: #ff2d78; box-shadow: 0 0 40px rgba(255,45,120,0.3); }
+            25%  { border-color: #00ffff; box-shadow: 0 0 40px rgba(0,255,255,0.3); }
+            50%  { border-color: #ff00ff; box-shadow: 0 0 40px rgba(255,0,255,0.3); }
+            75%  { border-color: #aaff00; box-shadow: 0 0 40px rgba(170,255,0,0.3); }
+            100% { border-color: #ff2d78; box-shadow: 0 0 40px rgba(255,45,120,0.3); }
+        }
+        body.party .stats,
+        body.party .breadcrumb,
+        body.party .file-manager,
+        body.party .instructions,
+        body.party .modal-content { animation: party-border 2s linear infinite; background: rgba(8,0,16,0.8); }
+        body.party .file-item     { animation: party-border 2s linear infinite; background: rgba(255,45,120,0.04); }
+        body.party .file-item:hover { animation: party-border 2s linear infinite; background: rgba(255,45,120,0.12); }
+        body.party .action-btn {
+            animation: party-border 2s linear infinite;
+            color: #ff2d78;
+            background: rgba(255,45,120,0.1);
+        }
+        body.party .breadcrumb-item { color: #ff2d78; animation: party-text-color 2s linear infinite; }
+        @keyframes party-text-color {
+            0%   { color: #ff2d78; }
+            25%  { color: #00ffff; }
+            50%  { color: #ff00ff; }
+            75%  { color: #aaff00; }
+            100% { color: #ff2d78; }
+        }
+        body.party .stat-value { animation: party-text-color 2s linear infinite; }
+        body.party .modal-header { border-color: #ff2d78; animation: party-border-color 2s linear infinite; }
+        @keyframes party-border-color {
+            0%   { border-bottom-color: #ff2d78; }
+            25%  { border-bottom-color: #00ffff; }
+            50%  { border-bottom-color: #ff00ff; }
+            75%  { border-bottom-color: #aaff00; }
+            100% { border-bottom-color: #ff2d78; }
+        }
+        body.party #modeToggle { animation: party-border 2s linear infinite; color: #ff2d78; }
+        body.party .back-home  { animation: party-border 2s linear infinite; color: #ff2d78; border-color: #ff2d78; }
+        body.party .download-btn { animation: party-border 2s linear infinite; color: #ff2d78; }
+        body.party .instructions h2, body.party .instructions h3 { animation: party-text-color 2s linear infinite; }
+        body.party .instructions .highlight { animation: party-border 2s linear infinite; background: rgba(255,45,120,0.05); }
+        body.party ::-webkit-scrollbar-thumb { animation: party-text-color 2s linear infinite; background: #ff2d78; }
+
         #modeToggle {
             position: fixed; top: 14px; right: 16px; z-index: 9000;
             padding: 8px 16px; background: rgba(212,175,55,0.15);
@@ -158,7 +228,7 @@
 </head>
 <body>
 
-    <button id="modeToggle" onclick="toggleMode()">☀️ LIGHT</button>
+    <button id="modeToggle" onclick="toggleMode()"><span id="themeIcon">☀️</span> <span id="themeLabel">LIGHT</span></button>
 
     <div class="main-content">
 
@@ -279,23 +349,39 @@ node generate-manifest.js</code></pre>
     </div>
 
     <script>
-        const savedMode = localStorage.getItem('cinemaMode') || 'dark';
-        if (savedMode === 'light') applyLight();
-
-        function applyLight() {
-            document.body.classList.add('light');
-            document.getElementById('modeToggle').textContent = '🌙 DARK';
-        }
-        function applyDark() {
-            document.body.classList.remove('light');
-            document.getElementById('modeToggle').textContent = '☀️ LIGHT';
-        }
-        function toggleMode() {
-            if (document.body.classList.contains('light')) {
-                applyDark(); localStorage.setItem('cinemaMode', 'dark');
-            } else {
-                applyLight(); localStorage.setItem('cinemaMode', 'light');
+        // Restore saved theme (shared kkk-theme key across all pages)
+        try {
+            var saved = localStorage.getItem('kkk-theme');
+            if (saved === 'light') {
+                document.body.classList.add('light');
+                document.getElementById('themeIcon').textContent = '🎉';
+                document.getElementById('themeLabel').textContent = 'PARTY';
+            } else if (saved === 'party') {
+                document.body.classList.add('party');
+                document.getElementById('themeIcon').textContent = '🌙';
+                document.getElementById('themeLabel').textContent = 'DARK';
             }
+        } catch(e) {}
+
+        function toggleMode() {
+            var b = document.body;
+            var next = b.classList.contains('light') ? 'party'
+                     : b.classList.contains('party') ? 'dark'
+                     : 'light';
+            b.classList.remove('light', 'party');
+            if (next === 'light') {
+                b.classList.add('light');
+                document.getElementById('themeIcon').textContent = '🎉';
+                document.getElementById('themeLabel').textContent = 'PARTY';
+            } else if (next === 'party') {
+                b.classList.add('party');
+                document.getElementById('themeIcon').textContent = '🌙';
+                document.getElementById('themeLabel').textContent = 'DARK';
+            } else {
+                document.getElementById('themeIcon').textContent = '☀️';
+                document.getElementById('themeLabel').textContent = 'LIGHT';
+            }
+            try { localStorage.setItem('kkk-theme', next); } catch(e) {}
         }
 
         const CONFIG = {

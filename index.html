@@ -406,6 +406,14 @@ node generate-manifest.js</code></pre>
                 manifestData = window.EMBEDDED_MANIFEST;
                 updateGlobalStats(); return;
             }
+            // Try local manifest first, then fall back to files.kkk.education
+            try {
+                const localRes = await fetch('manifest.json');
+                if (!localRes.ok) throw new Error('local not found');
+                manifestData = await localRes.json();
+                updateGlobalStats();
+                return;
+            } catch (e) {}
             try {
                 const response = await fetch(CONFIG.manifestPath);
                 if (!response.ok) throw new Error('Manifest not found');

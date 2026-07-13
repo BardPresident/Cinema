@@ -428,7 +428,7 @@ node generate-manifest.js</code></pre>
 
         function renderFiles(path) {
             const grid  = document.getElementById('fileGrid');
-            const items = getItemsAtPath(path);
+            const items = getItemsAtPath(path).filter(item => !item.name.startsWith('.'));
             if (!items || items.length === 0) {
                 grid.innerHTML = '<div class="state-message">📂 Empty tomb.<br>Nothing here... yet. 💀</div>';
                 return;
